@@ -1,0 +1,24 @@
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="container text-center">
+        {{!-- CON DTO --}}
+        <h1 class="display-3">Hola!!</h1>
+        <div class="card"></div>
+        <p><strong>Email:</strong> {{user.email}}</p>
+        <p><strong>Role:</strong> {{user.role}}</p>
+    </div>
+    {{!--
+    <h1 class="display-3">Hola {{user.user}}!!</h1>
+    <div class="card">
+        <p><strong>Nombre:</strong> {{user.first_name}}</p>
+        <p><strong>Apellido:</strong> {{user.last_name}}</p>
+        <p><strong>Email:</strong> {{user.email}}</p>
+        <p><strong>Edad:</strong> {{user.age}}</p>
+        <p><strong>Role:</strong> {{user.role}}</p>
+    </div> --}}
+    <div>
+        <form action="/api/sessions/logout" method="POST">
+            <button type="submit" class="btn btn-danger logout-button">Logout</button>
+        </form>
+    </div>
+</div>
+</div>
