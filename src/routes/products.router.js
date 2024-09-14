@@ -1,10 +1,19 @@
 import express from "express"
 import ProductManager from "../dao/db/product-manager-db.js"
+import ProductController from "../controller/product.controller.js"
+
 
 const router = express.Router()
 const productManager = new ProductManager()
+const productController = new ProductController()
 
-router.get("/", async (req, res) => {
+router.get("/",(req, res) => productController.getProducts(req, res))
+
+/* router.get("/", passport.authenticate("jwt", { session: false }), onlyUser, (req, res) => {
+    productController.getProducts(req, res)
+})
+ */
+/* router.get("/", async (req, res) => {
     try {
         const {page = 1, sort= "asc", query, limit = 10} = req.query
         const options = {
@@ -36,7 +45,7 @@ router.get("/", async (req, res) => {
         res.status(500).json({ error: "Error al obtener el producto", details: error.message })
 
     }
-})
+}) */
 
 router.get("/:pid", async (req, res) => {
     const id = req.params.pid
