@@ -1,5 +1,7 @@
 // Acá creo el carrito y se lo asigno al user
 import CartDao from "../dao/cart.dao.js"
+import ProductDao from "../dao/product.dao.js"
+import TicketDao from  "../dao/ticket.dao.js"
 
 class CartRepository {
     
@@ -40,6 +42,11 @@ class CartRepository {
         return await CartDao.deleteProductToCart(cid, pid)
     }
     
+    // Vaciar carrito
+    async emptyCart(cid){
+        return await CartDao.emptyCart(cid)
+    }
+
     
 
 }

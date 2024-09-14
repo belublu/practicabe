@@ -1,5 +1,8 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"
+import configObject from "./config/env.config.js"
 
-mongoose.connect("mongodb+srv://blupelusa:MongoCoder2020@cluster0.xc6zvs5.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=Cluster0")
+const {mongo_url} = configObject
+
+mongoose.connect(mongo_url)
     .then(() => console.log("Conexión exitosa"))
     .catch((error) => console.log("Error en la conexión", error))

@@ -20,36 +20,21 @@ router.post("/", (req, res) => cartController.createCart(req, res));
 router.get("/", (req, res) => cartController.getCarts(req,res))
 // Obtener carrito por id
 router.get("/:cid", (req, res) => cartController.getCartById(req,res))
-// Agregar producto al
+// Agregar producto al carrito
 router.post("/:cid/product/:pid", (req, res) => cartController.addProductToCart(req, res))
 // Actualizar el carrito
 router.put("/:cid", (req, res) => cartController.updateCart(req, res))
-// Actualizar la cantidad de un producto en el carrito
+// Actualizar la cantidad de un producto en el carrito // 
 router.put("/:cid/products/:pid", (req, res) => cartController.updateProdQuantity(req, res))
 // Eliminar producto del carrito
 router.delete("/:cid/products/:pid", (req, res) => cartController.deleteProductToCart(req, res))
+// Eliminar carrito
+router.delete("/:cid", (req, res) => cartController.emptyCart(req, res))
+// Finalizar la compra y crear ticket // FALTA!!!!!
+router.get("/:cid/purchase", (req, res) => cartController.finishCart(req, res))
 
 
-router.put("/:cid/products/:pid", async (req, res) => {
-    const {cid, pid} = req.params
-    const {quantity} = req.body
 
-    if(typeof quantity !== "number" || quantity <= 0){
-        return res.status(400).json({message: "La cantidad a agregar debe ser un número positivo."})
-    }
-
-    try {
-        const result = await cartManager.updateProdQuantity(cid, pid, quantity)
-        if(result){
-            res.status(200).json({message: "La cantidad de productos ha sido actualizada con éxito."})
-        } else {
-            res.status(404).json({message: "Carrito o producto no encontrado."})
-        }
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({message: "Error al actualizar la cantidad del producto solicitada.", error})
-    }
-})
 //Modifico completamente ya que aplico service, controller, repository y dao
 /*  router.get("/", async (req, res) => {
     try {
@@ -97,6 +82,27 @@ router.put("/:cid/products/:pid", async (req, res) => {
     }
 }); */
 
+/* router.put("/:cid/products/:pid", async (req, res) => {
+    const {cid, pid} = req.params
+    const {quantity} = req.body
+
+    if(typeof quantity !== "number" || quantity <= 0){
+        return res.status(400).json({message: "La cantidad a agregar debe ser un número positivo."})
+    }
+
+    try {
+        const result = await cartManager.updateProdQuantity(cid, pid, quantity)
+        if(result){
+            res.status(200).json({message: "La cantidad de productos ha sido actualizada con éxito."})
+        } else {
+            res.status(404).json({message: "Carrito o producto no encontrado."})
+        }
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message: "Error al actualizar la cantidad del producto solicitada.", error})
+    }
+}) */
+
 /* router.delete('/:cid/products/:pid', async (req, res) => {
     const { cid, pid } = req.params
     try {
@@ -127,9 +133,7 @@ router.put("/:cid/products/:pid", async (req, res) => {
     }
 }) */
 
-
-
-router.delete("/:cid", async (req, res) => {
+/* router.delete("/:cid", async (req, res) => {
     const {cid} = req.params
     try {
         const result = await cartManager.emptyCart(cid)
@@ -141,10 +145,10 @@ router.delete("/:cid", async (req, res) => {
     } catch (error) {
         res.status(500).json({message: "Error al vaciar el carrito", error})
     }
-})
+}) */
 
 // Ruta para finalizar compra
-router.get("/:cid/purchase", async(req, res) => {
+/* router.get("/:cid/purchase", async(req, res) => {
     // Primero recupero el carrito id
     const cartId = req.params.cid
     try {
@@ -202,6 +206,6 @@ router.get("/:cid/purchase", async(req, res) => {
         
         res.status(500).send("Error al finalizar la compra")
     }
-} )
+} ) */
 
 export default router

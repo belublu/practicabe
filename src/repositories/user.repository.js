@@ -1,4 +1,5 @@
 // Acá importo el dao
+import UserModel from "../dao/models/users.models.js"
 import UserDao from "../dao/user.dao.js"
 
 class UserRepository {
@@ -12,6 +13,11 @@ class UserRepository {
         return await UserDao.findById(id)
     }
 
+    // Método para obtener al usuario por su carrito
+    async findUserByCart(cartId){
+        return await UserModel.findOne({cart: cartId})
+    }
+
     // Método para obtener usuario por email
     async getUser(email) {
         return await UserDao.findOne({email})
@@ -21,4 +27,4 @@ class UserRepository {
 // Agregar método para actualizar y eliminar
 
 
-export default new UserRepository()
+export default UserRepository

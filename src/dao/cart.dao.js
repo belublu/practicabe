@@ -1,4 +1,6 @@
 import CartModel from "./models/cart.model.js"
+import mongoose from "mongoose"
+import TicketModel from "./models/ticket.model.js"
 
 
 // ACÁ FALTAN CREAR MÁS MÉTODOS DEL CARRITO
@@ -59,17 +61,17 @@ class CartDao {
 
     // Actualizar la cantidad de un producto en el carrito
     async updateProdQuantity(cid, pid, quantity) {
-        const cart = await CartModel.findById(cid)
-        if(!cart) {
-            return null
+        const cart = await CartModel.findById(cid).populate("products.product");
+        if (!cart) {
+            return null;
         }
-        const product = cart.products.find(p => p.product.toString() === pid)
-        if(!product) {
-            return null
+        const product = cart.products.find(p => p.product.id.toString() === pid);
+        if (!product) {
+            return null;
         }
-        product.quantity = quantity
-        await cart.save()
-        return cart
+        product.quantity = quantity;
+        await cart.save();
+        return cart;
     }
 
     // Eliminar producto del carrito
@@ -86,6 +88,16 @@ class CartDao {
             return cart
         }
     }
+
+    // Vaciar carrito
+    async emptyCart(cid) {
+        const cart = await CartModel.findById(cid)
+        cart.products = []
+        await cart.save()
+        return cart   
+    }
+
+
 }
 
 export default new CartDao()

@@ -75,30 +75,26 @@ class CartController {
         const { quantity } = req.body
         try {
             const result = await this.cartService.updateProdQuantity(cid, pid, quantity)
-            res.status(201).send("La cantidad de productos ha sido actualizada con éxito", result)
+            res.status(201).send("La cantidad de productos se ha actualizado con éxito")
         } catch (error) {
-            if (error.message === "Carrito o producto no encontrado") {
-                res.status(404).json({ message: error.message });
-            } else {
-                res.status(400).json({ message: error.message });
-            }
+            res.status(400).send("Error al intentar cambiar la cantidad del producto seleccionado")
         }
     }
 
-/*     async updateProdQuantity(req, res) {
-        const { cid, pid } = req.params
-        const { quantity } = req.body
-        try {
-            const result = await this.cartService.updateProdQuantity(cid, pid, quantity)
-            res.status(201).send("La cantidad de productos ha sido actualizada con éxito", result)
-        } catch (error) {
-            if (error.message === "Carrito o producto no encontrado") {
-                res.status(404).json({ message: error.message });
-            } else {
-                res.status(400).json({ message: error.message });
+    /*     async updateProdQuantity(req, res) {
+            const { cid, pid } = req.params
+            const { quantity } = req.body
+            try {
+                const result = await this.cartService.updateProdQuantity(cid, pid, quantity)
+                res.status(201).send("La cantidad de productos ha sido actualizada con éxito", result)
+            } catch (error) {
+                if (error.message === "Carrito o producto no encontrado") {
+                    res.status(404).json({ message: error.message });
+                } else {
+                    res.status(400).json({ message: error.message });
+                }
             }
-        }
-    } */
+        } */
 
 
     // Eliminar producto del carrito
@@ -112,6 +108,19 @@ class CartController {
         }
     }
 
+    // Vaciar carrito
+    async emptyCart(req, res) {
+        const { cid } = req.params
+        try {
+            const cart = await this.cartService.emptyCart(cid)
+            res.status(201).send(`El carrito ${cid} se ha vaciado`)
+        } catch (error) {
+            res.status(500).send("Error del servidor")
+        }
+    }
+
+    // Finalizar compra
+    
 }
 
 export default CartController
