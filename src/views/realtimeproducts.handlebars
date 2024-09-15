@@ -1,11 +1,8 @@
 <div class="container my-5">
     <h1 class="title text-center mb-4">Lista de productos</h1>
-    <div class="row">
-        <div class="col-8">
-            <div class="row" id="productsList"></div>
-        </div>
 
-        <div class="col-4 ">
+    <div class="row">
+        <div class="col-4">
             <form class="m-4 p-4" id="productForm">
                 <h4 class="text-center mx-4">Agregar nuevos productos al inventario</h4>
                 <input type="text" name="title" id="title" class="form-control my-3 p-3"
@@ -22,29 +19,54 @@
                     placeholder="Ingrese la categoría del producto" required>
                 <button type="submit" id="btnSend" class="btn btn-primary my-3 w-100">Agregar producto</button>
             </form>
+        </div>
 
-            
-            {{#each products}}
-            <div class="col-4 mb-4">
-                <div class="card" style="width: 100%;">
-                    <img src="{{this.img}}" class="card-img-top" alt="FotoProducto">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">{{this.title}}</h5>
-                        <p class="card-text">{{this.description}}</p>
-                        <p class="card-text">Precio: ${{this.price}}</p>
-                        <p class="card-text">Código: {{this.code}}</p>
-                        <p class="card-text">Stock: {{this.stock}}</p>
-                        <p class="card-text">Categoría: {{this.category}}</p>
+        <div class="col-8">
+            <div class="row">
+                {{#each products}}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="{{this.img}}" class="card-img-top" alt="FotoProducto">
+                        <div class="card-body">
+                            <h5 class="card-title">{{this.title}}</h5>
+                            <p class="card-text">Descripción: {{this.description}}</p>
+                            <p class="card-text">Precio: ${{this.price}}</p>
+                            <p class="card-text">Código: {{this.code}}</p>
+                            <p class="card-text">Stock: {{this.stock}}</p>
+                            <p class="card-text">Categoría: {{this.category}}</p>
+                        </div>
                     </div>
                 </div>
+                {{/each}}
             </div>
-            {{/each}}
+
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {{#if hasPrevPage}}
+                    <li class="page-item">
+                        <a class="page-link" href="{{prevLink}}">Anterior</a>
+                    </li>
+                    {{else}}
+                    <li class="page-item disabled">
+                        <span class="page-link">Anterior</span>
+                    </li>
+                    {{/if}}
+
+                    {{#if hasNextPage}}
+                    <li class="page-item">
+                        <a class="page-link" href="{{nextLink}}">Siguiente</a>
+                    </li>
+                    {{else}}
+                    <li class="page-item disabled">
+                        <span class="page-link">Siguiente</span>
+                    </li>
+                    {{/if}}
+                </ul>
+            </nav>
         </div>
     </div>
-</div>
-</div>
 
-<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"
-    integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO"
-    crossorigin="anonymous"></script>
-<script src="js\main.js"></script>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"
+        integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO"
+        crossorigin="anonymous"></script>
+    <script src="js\main.js"></script>

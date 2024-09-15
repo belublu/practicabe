@@ -1,5 +1,3 @@
-// Acá creo los middleware para verificar los roles
-
 export function onlyAdmin(req, res, next){
     if(req.user.role === "Admin"){
         next()
@@ -8,7 +6,6 @@ export function onlyAdmin(req, res, next){
     }
 }
 
-
 export function onlyUser(req, res, next){
     if(req.user.role === "User"){
         next()
@@ -16,5 +13,3 @@ export function onlyUser(req, res, next){
         res.status(403).send("Acceso denegado. Sólo para administradores.")
     }
 }
-
-// Esto lo llevo al views.router

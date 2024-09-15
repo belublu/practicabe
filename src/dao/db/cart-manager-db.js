@@ -6,8 +6,8 @@ class CartManager {
             const carts = await CartModel.find().populate("products.product")
             return carts
         } catch (error) {
-            console.log("Error al obtener los carritos", error);
-            throw error;
+            console.log("Error al obtener los carritos", error)
+            throw error
         }
     }
 

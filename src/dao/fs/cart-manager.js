@@ -33,7 +33,7 @@ class CartManager {
         try {
             return await this.loadCarts()
         } catch (error) {
-            console.error("Error al obtener los carritos:", error);
+            console.error("Error al obtener los carritos:", error)
         }
     }
 

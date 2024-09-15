@@ -36,7 +36,6 @@ class CartController {
                 res.status(400).send("No ha sido encontrado un carrito con ese id")
             }
         } catch (error) {
-            console.error("Error al obtener el carrito: ", error)
             res.status(500).send("Error al obetener el carrito")
         }
     }
@@ -73,29 +72,22 @@ class CartController {
     async updateProdQuantity(req, res) {
         const { cid, pid } = req.params
         const { quantity } = req.body
+
+        if (!quantity || quantity <= 0) {
+            return res.status(400).send("La cantidad debe ser mayor a 0")
+        }
+
         try {
             const result = await this.cartService.updateProdQuantity(cid, pid, quantity)
-            res.status(201).send("La cantidad de productos se ha actualizado con éxito")
+            if (result) {
+                res.status(201).send("Cantidad de producto actualizada con éxito")
+            } else {
+                res.status(404).send("El carrito o el producto no han sido encontrados")
+            }
         } catch (error) {
-            res.status(400).send("Error al intentar cambiar la cantidad del producto seleccionado")
+            res.status(500).send("Error al actualizar la cantidad del producto")
         }
     }
-
-    /*     async updateProdQuantity(req, res) {
-            const { cid, pid } = req.params
-            const { quantity } = req.body
-            try {
-                const result = await this.cartService.updateProdQuantity(cid, pid, quantity)
-                res.status(201).send("La cantidad de productos ha sido actualizada con éxito", result)
-            } catch (error) {
-                if (error.message === "Carrito o producto no encontrado") {
-                    res.status(404).json({ message: error.message });
-                } else {
-                    res.status(400).json({ message: error.message });
-                }
-            }
-        } */
-
 
     // Eliminar producto del carrito
     async deleteProductToCart(req, res) {
@@ -118,9 +110,6 @@ class CartController {
             res.status(500).send("Error del servidor")
         }
     }
-
-    // Finalizar compra
-    
 }
 
 export default CartController

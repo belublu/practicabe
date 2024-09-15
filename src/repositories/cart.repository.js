@@ -1,15 +1,9 @@
-// Acá creo el carrito y se lo asigno al user
 import CartDao from "../dao/cart.dao.js"
-import ProductDao from "../dao/product.dao.js"
-import TicketDao from  "../dao/ticket.dao.js"
-
 class CartRepository {
-    
     // Crear carrito
     async createCart(){
         console.log("Creando carrito...")
         return await CartDao.createCart()
-        
     }
 
     // Obtener los carritos
@@ -19,6 +13,7 @@ class CartRepository {
 
     // Obtener carrito por id
     async getCartById(id){
+        console.log("Cart ID passed to repository:", id)
         return await CartDao.getCartById(id)
     }
 
@@ -46,9 +41,9 @@ class CartRepository {
     async emptyCart(cid){
         return await CartDao.emptyCart(cid)
     }
-
-    
-
 }
 
-export default CartRepository
+const cartRepositoryInstance = new CartRepository()
+
+export { CartRepository }  // Exporté la clase para usarla en otras partes
+export default cartRepositoryInstance

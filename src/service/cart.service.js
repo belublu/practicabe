@@ -1,13 +1,10 @@
-import TicketModel from "../dao/models/ticket.model.js"
 import CartRepository from "../repositories/cart.repository.js"
-import totalPurchase from "../util/checkout.utils.js"
-import UserRepository from "../repositories/user.repository.js"
-console.log(UserRepository)
+
 class CartService {
     constructor() {
-        this.cartRepository = new CartRepository()
-        this.userRepository = new UserRepository()
+        this.cartRepository = CartRepository
     }
+
     // Crear carrito
     async createCart() {
         return await this.cartRepository.createCart()
@@ -59,7 +56,6 @@ class CartService {
         return updatedCart
     }
 
-
     // Eliminar producto del carrito
     async deleteProductToCart(cid, pid) {
         if (!cid || !pid) {
@@ -79,9 +75,6 @@ class CartService {
         }
         return cart
     }
-
-    // Finalizar compra
-    
 }
 
 export default CartService

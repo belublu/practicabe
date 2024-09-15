@@ -1,16 +1,15 @@
 import userService from "../service/user.service.js"
 import jwt from "jsonwebtoken"
-import UserDto from "../dto/user.dto.js";
+import UserDto from "../dto/user.dto.js"
 
 class UserController {
-    // Método para registro
+    // Registro
     async register(req, res) {
         const { user, first_name, last_name, age, email, password } = req.body
-        console.log("Datos recibidos del formulario:", { first_name, last_name, age, email, password });
+        console.log("Datos recibidos del formulario:", { first_name, last_name, age, email, password })
         try {
             const newUser = await userService.registerUser({ user, first_name, last_name, age, email, password })
-
-            console.log("Usuario registrado con éxito:", newUser);
+            console.log("Usuario registrado con éxito:", newUser)
 
             const token = jwt.sign({
                 user: `${newUser.first_name} ${newUser.last_name}`,
@@ -23,18 +22,16 @@ class UserController {
             res.cookie("pepitaCookieToken", token, { maxAge: 360000, httpOnly: true })
             res.redirect("/api/sessions/current")
         } catch (error) {
-            console.log("Error al registrar el usuario:", error);
-
+            console.log("Error al registrar el usuario:", error.message)
             res.status(500).send("Error del servidor")
         }
     }
 
-    // Método para Login
+    // Login
     async login(req, res) {
-        const { email, password } = req.body;            
+        const { email, password } = req.body         
 
         try {
-            // Uso el UserService para validar que se encuentre el usuario y que la contraseña sea correcta
             console.log("Datos recibidos en login:", { email, password })
 
             const user = await userService.loginUser(email, password)
@@ -49,7 +46,7 @@ class UserController {
             res.cookie("pepitaCookieToken", token, {maxAge: 360000, httpOnly: true})
             res.redirect("/api/sessions/current")
         } catch (error) {
-            res.status(500).send("Error del server")
+            res.status(500).send("Error del server" + error.message)
         }
     }
 
@@ -64,12 +61,11 @@ class UserController {
         }
     }
 
+    // Logout
     logout(req, res) {
         res.clearCookie("pepitaCookieToken")
         res.redirect("/login")
     }
 }
-
-// El controlador se conecta con el session.router. 
 
 export default new UserController()

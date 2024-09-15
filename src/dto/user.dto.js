@@ -5,6 +5,4 @@ class UserDto {
     }
 }
 
-// Lo incluyo en user.controller.js
-
 export default UserDto

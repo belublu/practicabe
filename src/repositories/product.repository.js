@@ -9,11 +9,24 @@ class ProductRepository {
         return await this.productDao.getProducts(filter, options)
     }
 
+    // Obtener producto por id
+    async getProductById(id) {
+        return await this.productDao.getProductById(id)
+    }
 
     // Agregar producto
     async addProduct(productData) {
-        const product = await this.productDao.addProduct(productData)
-        return product
+        return await this.productDao.addProduct(productData)
+    }
+
+    // Actualizar producto
+    async updateProduct(id, updateProd) {
+        return await this.productDao.updateProduct(id, updateProd)
+    }
+
+    // Eliminar producto
+    async deleteProduct(id){
+        return await this.productDao.deleteProduct(id)
     }
 }
 

@@ -1,27 +1,14 @@
 import CartModel from "./models/cart.model.js"
-import mongoose from "mongoose"
-import TicketModel from "./models/ticket.model.js"
-
-
-// ACÁ FALTAN CREAR MÁS MÉTODOS DEL CARRITO
 class CartDao {
     // Crear carrito
     async createCart() {
-        const newCart = new CartModel({products: []})
+        const newCart = new CartModel({ products: [] })
         return await newCart.save()
     }
 
     // Obtener los carritos
     async getCarts() {
         return await CartModel.find()
-        /* try {
-            //const carts = await CartModel.find().populate("products.product")
-            const carts = await CartModel.find()
-            return carts
-        } catch (error) {
-            console.log("Error al obtener los carritos", error)
-            throw error
-        } */
     }
 
     // Obtener carrito por id
@@ -32,15 +19,15 @@ class CartDao {
     // Agregar producto al carrito
     async addProductToCart(cartId, productId, quantity) {
         const cart = await CartModel.findById(cartId)
-        if(!cart) {
+        if (!cart) {
             throw new Error("No existe un carrito con ese id")
         }
         // Verifico si el producto ya existe en el carrito, sino lo agrego
         const productExist = cart.products.findIndex(p => p.product.toString() === productId)
-        if(productExist >= 0) {
+        if (productExist >= 0) {
             cart.products[productExist].quantity += quantity
         } else {
-            cart.products.push({product: productId, quantity})
+            cart.products.push({ product: productId, quantity })
         }
         // Guardo el carrito
         await cart.save()
@@ -49,9 +36,8 @@ class CartDao {
 
     // Actualizar el carrito
     async updateCart(cid, products) {
-
         const cart = await CartModel.findById(cid)
-        if(!cart) {
+        if (!cart) {
             return null
         }
         cart.products = products
@@ -61,28 +47,28 @@ class CartDao {
 
     // Actualizar la cantidad de un producto en el carrito
     async updateProdQuantity(cid, pid, quantity) {
-        const cart = await CartModel.findById(cid).populate("products.product");
+        const cart = await CartModel.findById(cid).populate("products.product")
         if (!cart) {
-            return null;
+            return null
         }
-        const product = cart.products.find(p => p.product.id.toString() === pid);
+        const product = cart.products.find(p => p.product.id.toString() === pid)
         if (!product) {
-            return null;
+            return null
         }
-        product.quantity = quantity;
-        await cart.save();
-        return cart;
+        product.quantity = quantity
+        await cart.save()
+        return cart
     }
 
     // Eliminar producto del carrito
     async deleteProductToCart(cid, pid) {
         const cart = await CartModel.findById(cid)
-        if(!cart) {
+        if (!cart) {
             throw new Error("No existe un carrito con ese id")
         }
         // Verifico si el producto ya existe en el carrito, sino lo elimino
         const productExist = cart.products.findIndex(p => p.product.toString() === pid)
-        if(productExist) {
+        if (productExist) {
             cart.products.splice(productExist, 1)
             await cart.save()
             return cart
@@ -94,10 +80,8 @@ class CartDao {
         const cart = await CartModel.findById(cid)
         cart.products = []
         await cart.save()
-        return cart   
+        return cart
     }
-
-
 }
 
 export default new CartDao()
